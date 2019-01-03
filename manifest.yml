@@ -1,0 +1,5 @@
+applications:
+- name: astro-rules-engine
+  disk_quota: 256M  
+  instances: 1
+  memory: 256M
