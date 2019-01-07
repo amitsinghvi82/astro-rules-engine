@@ -2,8 +2,8 @@ var request = require('request');
 var http = require('http');
 
 var baseUrl = "http://api.vedicrishiastro.com/v1/";
-var userID =  "<your-user-id>";
-var apiKey = "<your-api-key>";
+var userID =  "603492";
+var apiKey = "1951973afc0167d5765e3453a77507f8";
 
 
 var getResponse = (resource, data, callback) => {
@@ -13,7 +13,8 @@ var getResponse = (resource, data, callback) => {
 		{
 			url: url,
 			headers: {
-				"Authorization": auth
+				"Authorization": auth,
+				"Accept-language":"hi"
 			},
 			method: "POST",
 			form: data
