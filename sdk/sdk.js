@@ -84,7 +84,12 @@ var packageMatchMakingData = (maleBirthData, femaleBirthData) => {
 
 };
 
-
+var packageGeoData = (place, maxRows) => {
+	return {
+        'place': place,
+        'maxRows': maxRows
+    }
+};
 
 var api = {
 	
@@ -100,6 +105,11 @@ var api = {
 
 	matchMakingCall: (resource, maleBirthData, femaleBirthData, callback)=> {
 		var data = packageMatchMakingData(maleBirthData, femaleBirthData);
+		return getResponse(resource, data, callback);
+	},
+
+	geoDetailsCall: (resource, place, maxRows, callback) => {
+		var data = packageGeoData(place, maxRows);
 		return getResponse(resource, data, callback);
 	}
 
