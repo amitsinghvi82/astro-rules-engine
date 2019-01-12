@@ -41,4 +41,33 @@ webserver.get('/', function(req,res) {
 });
 
 
+webserver.get('/getGeoDetails', function(req,res) {
+  var resource = "geo_details";
+  var data = {
+    'place': 'Indore',
+    'maxRows': 1
+  };
+  // call horoscope apis
+  sdkClient.geoDetailsCall(resource, data.place, data.maxRows, function(error, result){
+
+  if(error)
+  {
+      console.log("Error returned!!");
+  }
+  else
+  {
+      console.log('Response has arrived from API server --');
+      console.log(result);
+      res.render('index', {
+        layout: 'layouts/default',
+        base_url: req.hostname,
+        api_response: result
+      });
+  }
+  });
+    
+
+});
+
+
 }
