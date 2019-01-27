@@ -22,5 +22,5 @@ module.exports = function(engine) {
           }
         }
       }
-      engine.addRule(savashtakRuleNegative);      
+      engine.addRule(gajkesariRule);      
 }
