@@ -5,61 +5,61 @@ module.exports = function(engine) {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Su',            
+                value: 'Su'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['6', '8', '12'],             
+                operator: 'in',
+                value: ['6', '8', '12']             
               }]
           }, {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Ma',            
+                value: 'Ma'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['6', '12'],             
+                operator: 'in',
+                value: ['6', '12']             
               }]  
           }, {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Me',            
+                value: 'Me'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['8', '12'],             
+                operator: 'in',
+                value: ['8', '12']             
               }]  
           }, {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Ju',            
+                value: 'Ju'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['6', '8', '12'],             
+                operator: 'in',
+                value: ['6', '8', '12']             
               }]  
           }, {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Ve',            
+                value: 'Ve'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['6', '8'],             
+                operator: 'in',
+                value: ['6', '8']             
               }]  
           }, {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Sa',            
+                value: 'Sa'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['6', '8','12'],             
+                operator: 'in',
+                value: ['6', '8','12']             
               }]  
           }
         ] 
@@ -78,31 +78,31 @@ module.exports = function(engine) {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Ma',            
+                value: 'Ma'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['8'],             
+                operator: 'in',
+                value: ['8']             
               }]  
           }, {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Me',            
+                value: 'Me'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['6'],             
+                operator: 'in',
+                value: ['6']             
               }]  
           }, {
             all: [{
                 fact: 'dhan-lord',
                 operator: 'equal',
-                value: 'Ve',            
+                value: 'Ve'            
               }, {
                 fact: 'dhan-lord-moon-distance',
-                operator: 'equal',
-                value: ['12'],             
+                operator: 'in',
+                value: ['12']             
               }]  
           }
         ] 
