@@ -29,15 +29,24 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
 
 // make some dummy data in order to call vedic rishi api
 var data = {
-  'date': 10,
-  'month': 12,
-  'year': 1993,
-  'hour': 1,
-  'minute': 25,
+  'date': 28,
+  'month': 8,
+  'year': 1976,
+  'hour': 23,
+  'minute': 08,
   'latitude': 22.71792,
   'longitude': 75.8333,
   'timezone': 5.5
 };
+
+var dateObj = new Date();
+var month = dateObj.getMonth() + 1; //months from 1-12
+var day = dateObj.getDate();
+var year = dateObj.getFullYear();
+var hour = dateObj.getHours();
+var minute = dateObj.getMinutes();
+
+console.log("Day:" + day + " Month:" + month + " Year:" + year + " Hour:" + hour + " Minute:" + minute);
 
 // api name which is to be called
 var resource = "horo_chart/D1";
@@ -74,8 +83,35 @@ engine.addFact('dhan-lord', (params, almanac) => {
   //return 'Ve';
 }, { priority: HIGH })
 
+engine.addFact('dhan-lord-moon-distance', (params, almanac) => {
+  // this fact will not be evaluated, because the "date" fact will fail first
+  console.log('Checking the "dhan-lord-moon-distance" fact...') // this message will not appear  
+      return new Promise((resolve, reject) => {
+        setImmediate(() => {
+          almanac.factValue('dhan-lord')
+          .then(dhanLord => {
+          sdkClient.call(resource, day, month, year, hour, minute, data.latitude, data.longitude, data.timezone, function(error, result){
+    
+            if(error)
+            {
+                console.log("Error returned!!");
+            }
+            else
+            {
+                console.log('Response has arrived from API server --');
+                console.log(result);
+                var apiResponse = JSON.parse(result);                
+                resolve(lordRule.getDhanLordMoonDistance(apiResponse, dhanLord));
+                //resolve('12');
+            }
+          })      
+        })
+      })
+    })
+  }, { priority: LOW })
+  
 
-engine.addFact('dhan-lord-moon-distance','12');
+//engine.addFact('dhan-lord-moon-distance','12');
 engine.addFact('mars-moon-distance','4');
 engine.addFact('jupiter-moon-distance','3');
 //engine.addFact('dhan-lord','Ve');
