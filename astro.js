@@ -6,6 +6,8 @@ var debug = require('debug')('astro:webserver');
 var http = require('http');
 var fs = require('fs');
 var hbs = require('express-hbs');
+var sdkClient = require('./sdk/sdk');
+var lordRule = require('./utils/lord');
 
 env(__dirname + '/.env');
 
@@ -14,47 +16,73 @@ var debug = require('debug')('astro:main');
 // Set up an Express-powered webserver to expose oauth and webhook endpoints
 var webserver = require(__dirname + '/components/express_webserver.js')();
 
-// define a rule for detecting the player has exceeded foul limits.  Foul out any player who:
-// (has committed 5 fouls AND game is 40 minutes) OR (has committed 6 fouls AND game is 48 minutes)
-
 let Engine = require('json-rules-engine').Engine;
 let Rule = require('json-rules-engine').Rule
 let engine = new Engine();
+  
+// add rules to engine
+var normalizedPath = require("path").join(__dirname, "rules");
+require("fs").readdirSync(normalizedPath).forEach(function(file) {
+  console.log('File:' + file);
+  require("./rules/" + file)(engine);
+});
 
-/**
- * Create a rule
- */
-let rule = new Rule({
-    // define the 'conditions' for when "hello world" should display
-    conditions: {
-      all: [{
-        fact: 'displayMessage',
-        operator: 'equal',
-        value: true
-      }]
-    },
-    // define the 'event' that will fire when the condition evaluates truthy
-    event: {
-      type: 'message',
-      params: {
-        data: 'hello-world!'
-      }
-    }
+// make some dummy data in order to call vedic rishi api
+var data = {
+  'date': 10,
+  'month': 12,
+  'year': 1993,
+  'hour': 1,
+  'minute': 25,
+  'latitude': 22.71792,
+  'longitude': 75.8333,
+  'timezone': 5.5
+};
+
+// api name which is to be called
+var resource = "horo_chart/D1";
+
+let HIGH = 100
+let LOW = 1
+let facts;
+engine.addFact('dhan-lord', (params, almanac) => {
+  // this fact will not be evaluated, because the "date" fact will fail first
+  console.log('Checking the "dhan-lord" fact...') // this message will not appear
+  return new Promise((resolve, reject) => {
+    setImmediate(() => {
+      sdkClient.call(resource, data.date, data.month, data.year, data.hour, data.minute, data.latitude, data.longitude, data.timezone, function(error, result){
+
+        if(error)
+        {
+            console.log("Error returned!!");
+        }
+        else
+        {
+            console.log('Response has arrived from API server --');
+            console.log(result);
+            var apiResponse = JSON.parse(result);
+            //var dhanRashi = JSON.parse(apiResponse[1]);
+            console.log(apiResponse[1]);
+            console.log(apiResponse[1].sign);
+            console.log(lordRule.getDhanLord(apiResponse[1].sign));
+            resolve(lordRule.getDhanLord(apiResponse[1].sign));
+        }
+      })      
+    })
   })
   
-  // add rule to engine
-  
-// Run the engine to evaluate
-engine
-  .addRule(rule);
+  //return 'Ve';
+}, { priority: HIGH })
 
-  
-let facts = { displayMessage: true }
 
+engine.addFact('dhan-lord-moon-distance','12');
+engine.addFact('mars-moon-distance','4');
+engine.addFact('jupiter-moon-distance','3');
+//engine.addFact('dhan-lord','Ve');
 engine  
-  .run(facts)
+  .run()
   .then(events => { // run() returns events with truthy conditions
-    events.map(event => console.log(event.params.data))
+    events.map(event => console.log(event.params.message))
   })
  
 /*
