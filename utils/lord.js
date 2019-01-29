@@ -32,10 +32,42 @@ var dhanLord = {
                     moonPosition = house.sign;
                 }
             })            
-        });
-        console.log('Dhan Lord Position:' + dhanLordPosition);
-        console.log('Moon Position:' + moonPosition);
+        });        
         return Math.abs(dhanLordPosition - moonPosition + 1);
+    },
+
+    getMarsMoonDistance: (response) => {        
+        var marsPosition;
+        var moonPosition;		
+		response.forEach(function(house) {
+            var planets = house.planet_small;            
+            planets.forEach(function(planet) {                
+                if (planet.trim() == 'Ma') {
+                    marsPosition = house.sign;
+                }
+                if (planet.trim() == 'Mo') {
+                    moonPosition = house.sign;
+                }
+            })            
+        });        
+        return Math.abs(marsPosition - moonPosition + 1);
+    },
+
+    getJupiterMoonDistance: (response) => {        
+        var jupiterPosition;
+        var moonPosition;		
+		response.forEach(function(house) {
+            var planets = house.planet_small;            
+            planets.forEach(function(planet) {                
+                if (planet.trim() == 'Ju') {
+                    jupiterPosition = house.sign;
+                }
+                if (planet.trim() == 'Mo') {
+                    moonPosition = house.sign;
+                }
+            })            
+        });        
+        return Math.abs(jupiterPosition - moonPosition + 1);
     }
 }
 
