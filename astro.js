@@ -29,11 +29,11 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
 
 // make some dummy data in order to call vedic rishi api
 var data = {
-  'date': 28,
-  'month': 8,
-  'year': 1976,
-  'hour': 23,
-  'minute': 08,
+  'date': 17,
+  'month': 5,
+  'year': 1973,
+  'hour': 20,
+  'minute': 45,
   'latitude': 22.71792,
   'longitude': 75.8333,
   'timezone': 5.5
@@ -53,6 +53,7 @@ var resource = "horo_chart/D1";
 
 let HIGH = 100
 let LOW = 1
+let MEDIUM = 50
 let facts;
 engine.addFact('dhan-lord', (params, almanac) => {
   // this fact will not be evaluated, because the "date" fact will fail first
@@ -67,20 +68,40 @@ engine.addFact('dhan-lord', (params, almanac) => {
         }
         else
         {
-            console.log('Response has arrived from API server --');
+            console.log('Birth Horoscope Response has arrived from API server --');
             console.log(result);
             var apiResponse = JSON.parse(result);
-            //var dhanRashi = JSON.parse(apiResponse[1]);
-            console.log(apiResponse[1]);
-            console.log(apiResponse[1].sign);
-            console.log(lordRule.getDhanLord(apiResponse[1].sign));
-            resolve(lordRule.getDhanLord(apiResponse[1].sign));
+            var dhanLord = lordRule.getDhanLord(apiResponse[1].sign);
+            console.log("Dhan Lord:" + dhanLord);
+            resolve(dhanLord);
         }
       })      
     })
   })
   
   //return 'Ve';
+}, { priority: HIGH })
+
+engine.addFact('current-api-response', (params, almanac) => {
+  console.log('Checking the "current-api-response" fact...') // this message will not appear
+  return new Promise((resolve, reject) => {
+    setImmediate(() => {      
+      sdkClient.call(resource, day, month, year, hour, minute, data.latitude, data.longitude, data.timezone, function(error, result){
+
+        if(error)
+        {
+            console.log("Error returned!!" + error);
+        }
+        else
+        {
+          console.log('Current Horoscope Response has arrived from API server --');
+          console.log(result);
+          var apiResponse = JSON.parse(result);
+          resolve(apiResponse);
+        }
+    })
+  })
+})
 }, { priority: HIGH })
 
 engine.addFact('dhan-lord-moon-distance', (params, almanac) => {
@@ -90,31 +111,53 @@ engine.addFact('dhan-lord-moon-distance', (params, almanac) => {
         setImmediate(() => {
           almanac.factValue('dhan-lord')
           .then(dhanLord => {
-          sdkClient.call(resource, day, month, year, hour, minute, data.latitude, data.longitude, data.timezone, function(error, result){
+            almanac.factValue('current-api-response')
+            .then(apiResponse => {
+              var dhanLordMoonDistance = lordRule.getDhanLordMoonDistance(apiResponse, dhanLord)
+              console.log('Dhan Lord distance from Moon:' + dhanLordMoonDistance);
+              resolve(dhanLordMoonDistance);
+          })    
+        })
+      })
+    })
+  }, { priority: MEDIUM })
+
+  engine.addFact('mars-moon-distance', (params, almanac) => {
+    // this fact will not be evaluated, because the "date" fact will fail first
+    console.log('Checking the "mars-moon-distance" fact...') // this message will not appear  
+    return new Promise((resolve, reject) => {
+      setImmediate(() => {
+        almanac.factValue('dhan-lord')
+        .then(dhanLord => {
+          almanac.factValue('current-api-response')
+          .then(apiResponse => {
+            var marsMoonDistance = lordRule.getMarsMoonDistance(apiResponse)
+            console.log('Mars distance from Moon:' + marsMoonDistance);
+            resolve(marsMoonDistance);
+        })    
+      })
+    })
+  })
+  }, { priority: LOW })
     
-            if(error)
-            {
-                console.log("Error returned!!");
-            }
-            else
-            {
-                console.log('Response has arrived from API server --');
-                console.log(result);
-                var apiResponse = JSON.parse(result);                
-                resolve(lordRule.getDhanLordMoonDistance(apiResponse, dhanLord));
-                //resolve('12');
-            }
-          })      
+  engine.addFact('jupiter-moon-distance', (params, almanac) => {
+      // this fact will not be evaluated, because the "date" fact will fail first
+      console.log('Checking the "jupiter-moon-distance" fact...') // this message will not appear  
+      return new Promise((resolve, reject) => {
+        setImmediate(() => {
+          almanac.factValue('dhan-lord')
+          .then(dhanLord => {
+            almanac.factValue('current-api-response')
+            .then(apiResponse => {
+              var jupiterMoonDistance = lordRule.getJupiterMoonDistance(apiResponse);
+              console.log('Jupiter distance from Moon:' + jupiterMoonDistance);
+              resolve(jupiterMoonDistance);
+          })    
         })
       })
     })
   }, { priority: LOW })
-  
 
-//engine.addFact('dhan-lord-moon-distance','12');
-engine.addFact('mars-moon-distance','4');
-engine.addFact('jupiter-moon-distance','3');
-//engine.addFact('dhan-lord','Ve');
 engine  
   .run()
   .then(events => { // run() returns events with truthy conditions
