@@ -8,11 +8,11 @@ module.exports = function(engine) {
               }, {
                 fact: 'mars-moon-distance',
                 operator: 'in',
-                value: ['4', '7', '8']             
+                value: [4, 7, 8]             
               }, {
                 fact: 'jupiter-moon-distance',
                 operator: 'in',
-                value: ['5', '7', '9']             
+                value: [5, 7, 9]             
               }]
         },
         event: {

@@ -9,7 +9,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['6', '8', '12']             
+                value: [6, 8, 12]             
               }]
           }, {
             all: [{
@@ -19,7 +19,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['6', '12']             
+                value: [6, 12]             
               }]  
           }, {
             all: [{
@@ -29,7 +29,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['8', '12']             
+                value: [8, 12]             
               }]  
           }, {
             all: [{
@@ -39,7 +39,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['6', '8', '12']             
+                value: [6, 8, 12]             
               }]  
           }, {
             all: [{
@@ -49,7 +49,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['6', '8']             
+                value: [6, 8]             
               }]  
           }, {
             all: [{
@@ -59,7 +59,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['6', '8','12']             
+                value: [6, 8, 12]             
               }]  
           }
         ] 
@@ -82,7 +82,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['8']             
+                value: [8]             
               }]  
           }, {
             all: [{
@@ -92,7 +92,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['6']             
+                value: [6]             
               }]  
           }, {
             all: [{
@@ -102,7 +102,7 @@ module.exports = function(engine) {
               }, {
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['12']             
+                value: [12]             
               }]  
           }
         ] 

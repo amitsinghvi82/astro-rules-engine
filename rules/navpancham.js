@@ -4,7 +4,7 @@ module.exports = function(engine) {
             all: [{
                 fact: 'dhan-lord-moon-distance',
                 operator: 'in',
-                value: ['5', '9']             
+                value: [5, 9]             
               }]
         },
         event: {
